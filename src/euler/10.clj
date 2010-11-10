@@ -15,10 +15,11 @@
 ;;                   (prime? n primes) (recur (+ n 2) (conj primes n))
 ;;                   :else (recur (+ n 2) primes))))
 
-(require clojure.contrib.lazy-seqs)
+(ns euler.10
+  (:require [clojure.contrib.lazy-seqs :as lazy]))
 
 (reduce +
-        (take-while #(> 2000000 n) primes))
+        (take-while #(> 2000000 %) lazy/primes))
 
 
 

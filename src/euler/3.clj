@@ -2,45 +2,17 @@
 
 ;What is the largest prime factor of the number 600851475143 ?
 
-(defn primes-up-to [x]
-  (loop [r (range 2 x)
-         primes []]
-    (if (empty? r)
-      primes
-      (let [p (first r)]
-        (recur (filter #(not (= 0 (mod % p))) (rest r))
-               (conj primes p))))))
+(ns euler.3
+  (:require [clojure.contrib.lazy-seqs :as lazy]))
 
-(defn prime-factors [x]
-  (loop [primes (primes-up-to x)
-         hightest-factor 0]
-    (if (empty? primes)
-      hightest-factor
-      (recur (rest primes)
-             (let [p (first primes)]
-               (if (= 0 (mod x p))
-                 p
-                 hightest-factor))))))
+(def max-prime (Math/ceil (Math/sqrt 600851475143)))
 
-;(println (apply max (prime-factors 600851475143)))
+(loop [primes lazy/primes max-factor 0]
+  (let [p (first primes)]
+    (cond
+     (> p max-prime) max-factor
+     :else (if (zero? (mod 600851475143 p))
+             (recur (rest primes) p)
+             (recur (rest primes) max-factor)))))
 
-(defn prime? [x] 
-  (let [n (Math/ceil (Math/sqrt x))]
-    n))
-
-(defn highest-factor [x]
-  (loop [i 2]
-    (if (zero? (mod x i))
-      (/ x i)
-      (recur (inc i)))))
-
-
-(defn highest-prime-factor [x]
-  (let [highest-factor (highest-factor x)
-        primes         (primes-up-to highest-factor)]
-    highest-factor))
-
-(println (prime? (highest-factor 600851475143)))
-
-;(println (primes-up-to 30993))
 
