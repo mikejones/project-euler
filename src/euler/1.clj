@@ -4,3 +4,4 @@
     (= 0 (mod x 5))))
 
 (println (reduce + (filter multiple-3-or-5? (range 1 1000))))
+
